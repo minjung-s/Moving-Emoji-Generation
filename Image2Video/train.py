@@ -109,7 +109,7 @@ if __name__ == "__main__":
     video_loader = DataLoader(video_dataset, batch_size = video_batch, drop_last=True, num_workers=2, shuffle=True)
 
     # generator = models.VideoGenerator(n_channels, dim_z_content, dim_z_category, dim_z_motion, video_length) 
-    generator = models.VideoGenerator(3, n_channels, image_loader, batch_size = image_batch, dim_z_content, dim_z_category, dim_z_motion, video_length)# batch_size ? image? 
+    generator = models.VideoGenerator(3, n_channels, image_loader, image_batch, dim_z_content, dim_z_category, dim_z_motion, video_length)# batch_size ? image? 
     image_discriminator = build_discriminator(args['--image_discriminator'], n_channels=n_channels,
                                               use_noise=args['--use_noise'], noise_sigma=float(args['--noise_sigma']))
 
