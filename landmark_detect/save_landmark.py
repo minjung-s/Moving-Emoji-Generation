@@ -84,7 +84,7 @@ def landmark_detect(vid_path, vid_save_name):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_path" ,required= False, default = "D:\MUGdatabase\subjects3", help="video path")
-    parser.add_argument("--save_path" ,required= False, default = "D:\MUGdatabase\result", help="save video path")
+    parser.add_argument("--save_path" ,required= False, default = "D:\MUGdatabase\save", help="save video path")
     args = parser.parse_args()
 
     video_path = args.data_path
@@ -96,16 +96,16 @@ if __name__ == "__main__":
     video_list = []
 
     for num in num_list:
-        class_list = os.listdir(os.path.join(video_path,num,num)) 
+        class_list = os.listdir(os.path.join(video_path,num)) 
 
         for c in class_list:
-            take_list = os.listdir(os.path.join(video_path,num,num,c)) 
+            take_list = os.listdir(os.path.join(video_path,num,c)) 
 
             for t in take_list:
-                file_list = os.listdir(os.path.join(video_path,num,num,c, t))
+                file_list = os.listdir(os.path.join(video_path,num,c, t))
                 for f in file_list:
                     if f.endswith(".avi"):
-                        video_list.append(os.path.join(video_path, num, num, c, t, f))
+                        video_list.append(os.path.join(video_path, num, c, t, f))
 
     save_path = args.save_path
 
@@ -113,12 +113,14 @@ if __name__ == "__main__":
         save_file_path = os.path.join(save_path,c)
         if not os.path.exists(save_file_path):
             os.makedirs(save_file_path)
+    
+    print("number of data : ", len(video_list))
 
     for vid in video_list:
         for c in c_list:
             if c in vid:
                 s_path = os.path.join(save_path,c) 
-                file_name = c + str(len(os.listdir(s_path))+1) + '.json'
-        all_save_path = os.path.join(s_path,file_name)
-        landmark_detect(vid, all_save_path)
-
+                file_name = c + str(len(os.listdir(s_path))+1) + '.json'       
+                all_save_path = os.path.join(s_path,file_name)
+                print("save : ",all_save_path)
+                landmark_detect(vid, all_save_path)

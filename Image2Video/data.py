@@ -19,25 +19,18 @@ class VideoFolderDataset(torch.utils.data.Dataset):
         self.lengths = []
         self.images = []
 
-        if cache is not None and os.path.exists(cache):
-            with open(cache, 'r') as f:
-                self.images, self.lengths = pickle.load(f)
-        else:
-            for idx, (im, categ) in enumerate(
-                    tqdm.tqdm(dataset, desc="Counting total number of frames")):
-                img_path, _ = dataset.imgs[idx]
-                shorter, longer = min(im.width, im.height), max(im.width, im.height)
-                length = longer // shorter
-                if length >= min_len:
-                    self.images.append((img_path, categ))
-                    self.lengths.append(length)
 
-            if cache is not None:
-                with open(cache, 'w') as f:
-                    pickle.dump((self.images, self.lengths), f)
+        for idx, (im, categ) in enumerate(
+                tqdm.tqdm(dataset, desc="Counting total number of frames")):
+            img_path, _ = dataset.imgs[idx]
+            shorter, longer = min(im.width, im.height), max(im.width, im.height)
+            length = longer // shorter
+            if length >= min_len:
+                self.images.append((img_path, categ))
+                self.lengths.append(length)
 
         self.cumsum = np.cumsum([0] + self.lengths)
-        print "Total number of frames {}".format(np.sum(self.lengths))
+        print("Total number of frames {}".format(np.sum(self.lengths)))
 
     def __getitem__(self, item):
         path, label = self.images[item]
@@ -75,7 +68,7 @@ class ImageDataset(torch.utils.data.Dataset):
             frame = video[i_from: i_to, :, ::]
 
         if frame.shape[0] == 0:
-            print "video {}. From {} to {}. num {}".format(video.shape, i_from, i_to, item)
+            print("video {}. From {} to {}. num {}".format(video.shape, i_from, i_to, item))
 
         return {"images": self.transforms(frame), "categories": target}
 
@@ -117,7 +110,7 @@ class VideoDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.dataset)
 
-
+"""
 class ImageSampler(torch.utils.data.Dataset):
     def __init__(self, dataset, transform=None):
         self.dataset = dataset
@@ -181,3 +174,4 @@ class VideoSampler(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.unique_ids)
+"""
