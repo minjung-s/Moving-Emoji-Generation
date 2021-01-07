@@ -83,14 +83,15 @@ def landmark_detect(vid_path, vid_save_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_path" ,required= False, default = "dataset", help="video path")
-    parser.add_argument("--save_path" ,required= False, default = "result", help="save video path")
+    parser.add_argument("--data_path" ,required= False, default = "D:\MUGdatabase\subjects3", help="video path")
+    parser.add_argument("--save_path" ,required= False, default = "D:\MUGdatabase\result", help="save video path")
     args = parser.parse_args()
 
     video_path = args.data_path
     num_list = os.listdir(video_path)
 
-    c_list = ['anger', 'disgust', 'fear', 'happiness', 'neutral', 'sadness', 'surprise']
+    c_list = ['disgust','happiness','surprise']
+    #c_list = ['anger', 'disgust', 'fear', 'happiness', 'neutral', 'sadness', 'surprise']
 
     video_list = []
 
