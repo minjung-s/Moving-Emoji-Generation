@@ -330,32 +330,32 @@ class UNet(nn.Module):
 
         categ_embedding = embedding_f(n_class, np.prod(x.shape), self.z_category)
         
-        p = torch.cat([torch.reshape(categ_embedding,(6,)), self.z_motion, x, torch.reshape(self.z_noise,(100,))], dim=0))
+        p = torch.cat([torch.reshape(categ_embedding,(6,)), self.z_motion, x, torch.reshape(self.z_noise,(100,))], dim=0)
         # x : 200, noise : 100, z_motion: ???, categ_embedding : 6
 
         u_conv4 = self.conv_up4(p)
         x = self.conv_up_acf4(x)
 
         categ_embedding = embedding_f(n_class, np.prod(x.shape), self.z_category)        
-        x = torch.cat([x, conv4, torch.reshape(categ_embedding,x.shape)], torch.reshape(self.z_motion,x.shape)] dim=1) 
+        x = torch.cat([x, conv4, torch.reshape(categ_embedding,x.shape), torch.reshape(self.z_motion,x.shape)], dim=1) 
 
-        u_conv3 = self.conv_up3(x))
+        u_conv3 = self.conv_up3(x)
         x = self.conv_up_acf3(x)
 
         categ_embedding = embedding_f(n_class, np.prod(x.shape), self.z_category)      
-        x = torch.cat([x, conv3, torch.reshape(categ_embedding,x.shape)], torch.reshape(self.z_motion,x.shape)] dim=1)    
+        x = torch.cat([x, conv3, torch.reshape(categ_embedding,x.shape), torch.reshape(self.z_motion,x.shape)], dim=1)    
 
         u_conv2 = self.conv_up2(x)
         x = self.conv_up_acf2(x)
 
         categ_embedding = embedding_f(n_class, np.prod(x.shape), self.z_category)       
-        x = torch.cat([x, conv2, torch.reshape(categ_embedding,x.shape)], torch.reshape(self.z_motion,x.shape)] dim=1)  
+        x = torch.cat([x, conv2, torch.reshape(categ_embedding,x.shape), torch.reshape(self.z_motion,x.shape)], dim=1)  
 
         u_conv1 = self.conv_up1(x)
         x = self.conv_up_acf1(x)
 
         categ_embedding = embedding_f(n_class, np.prod(x.shape), self.z_category)       
-        x = torch.cat([x, conv1, torch.reshape(categ_embedding,x.shape)], torch.reshape(self.z_motion,x.shape)] dim=1) 
+        x = torch.cat([x, conv1, torch.reshape(categ_embedding,x.shape), torch.reshape(self.z_motion,x.shape)], dim=1) 
 
         out = self.conv_last(x)
         
@@ -379,7 +379,7 @@ class VideoGenerator(nn.Module):
         dim_z = dim_z_motion + dim_z_category + dim_z_content
 
         self.recurrent = nn.GRUCell(dim_z_motion, dim_z_motion)
-        self.main = UNet(n_class, n_channels, z_motion, image, batch_size): # z_motion ?
+        self.main = UNet(n_class, n_channels, z_motion, image, batch_size) # z_motion ?
         
         """
         self.main = nn.Sequential(
