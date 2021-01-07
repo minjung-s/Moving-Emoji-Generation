@@ -30,15 +30,15 @@ def img_file_to_gif(img_list, output_file_name):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
-	# parser.add_argument("--img1" ,required= True, help="The First Image")
-	# parser.add_argument("--landmark_path" ,required= True, help="landmark dir")
-	# parser.add_argument("--save_image_path" ,required= True, help="save_image dir")
-	# parser.add_argument("--output", default='results/emoticon.gif',help="Output Video Path")
-	
-	parser.add_argument("--img1" ,default = 'images/aligned_images/001228_01.png', help="The First Image")
-	parser.add_argument("--landmark_path", default = 'landmark', help="landmark dir")
-	parser.add_argument("--save_image_path",default = 'save_image', help="save_image dir")
+	parser.add_argument("--img1" ,required= True, help="The First Image")
+	parser.add_argument("--landmark_path" ,required= True, help="landmark dir")
+	parser.add_argument("--save_image_path" ,required= True, help="save_image dir")
 	parser.add_argument("--output", default='results/emoticon.gif',help="Output Video Path")
+	
+	# parser.add_argument("--img1" ,default = 'images/aligned_images/001228_01.png', help="The First Image")
+	# parser.add_argument("--landmark_path", default = 'landmark', help="landmark dir")
+	# parser.add_argument("--save_image_path",default = 'save_image', help="save_image dir")
+	# parser.add_argument("--output", default='results/emoticon.gif',help="Output Video Path")
 	
 	args = parser.parse_args()
 
