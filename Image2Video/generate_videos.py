@@ -8,12 +8,12 @@ https://arxiv.org/abs/1707.04993
 Generates multiple videos given a model and saves them as video files using ffmpeg
 
 Usage:
-    generate_videos.py [options] <model> <output_folder>
+    generate_videos.py [options] <model> <input_img> <output_folder>
 
 Options:
-    -n, --num_videos=<count>                number of videos to generate [default: 10]
+    -n, --num_videos=<count>                number of videos to generate [default: 1]
     -o, --output_format=<ext>               save videos as [default: gif]
-    -f, --number_of_frames=<count>          generate videos with that many frames [default: 16]
+    -f, --number_of_frames=<count>          generate videos with that many frames [default: 50]
 
     --ffmpeg=<str>                          ffmpeg executable (on windows should be ffmpeg.exe). Make sure
                                             the executable is in your PATH [default: ffmpeg]
@@ -22,6 +22,7 @@ Options:
 import os
 import docopt
 import torch
+from PIL import Image
 
 from trainers import videos_to_numpy
 
@@ -48,16 +49,24 @@ def save_video(ffmpeg, video, filename):
 
 if __name__ == "__main__":
     args = docopt.docopt(__doc__)
-
+    # generate_videos.py <model> <input_img> <output_folder>
+    # ex) generate_videos.py ./generator.pt ./input_img.png ./ouput
+    
     generator = torch.load(args["<model>"], map_location={'cuda:0': 'cpu'})
     generator.eval()
     num_videos = int(args['--num_videos'])
     output_folder = args['<output_folder>']
+    img_path = args['<input_image>']
+
+    img = Image.open(img_path)
+    img_tmp = np.array(img)
+    image = torch.from_numpy(img_tmp)
+
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     for i in range(num_videos):
-        v, _ = generator.sample_videos(1, int(args['--number_of_frames']))
+        v, _ = generator.sample_videos(image,1, int(args['--number_of_frames']))
         video = videos_to_numpy(v).squeeze().transpose((1, 2, 3, 0))
         save_video(args["--ffmpeg"], video, os.path.join(output_folder, "{}.{}".format(i, args['--output_format'])))
