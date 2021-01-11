@@ -134,7 +134,6 @@ class UNet(nn.Module):
     이미지 임베딩벡터와 z_motion,z_category와 concate되어 디코더 통과
     디코더 피쳐맵에, 인코더 피쳐맵과 z_motion임베딩값 z_cateogry임베딩값 concate
     """
-
     def __init__(self, n_class, n_channels, z_motion, z_category_labels, batch_size,video_length):
         super().__init__()
 
