@@ -8,7 +8,7 @@ https://arxiv.org/abs/1707.04993
 Generates multiple videos given a model and saves them as video files using ffmpeg
 
 Usage:
-    generate_videos.py [options] <model> <input_img> <output_folder>
+    generate_videos.py [options] <model> <input_img> <target class> <output_folder>
 
 Options:
     -n, --num_videos=<count>                number of videos to generate [default: 1]
@@ -49,24 +49,34 @@ def save_video(ffmpeg, video, filename):
 
 if __name__ == "__main__":
     args = docopt.docopt(__doc__)
-    # generate_videos.py <model> <input_img> <output_folder>
-    # ex) generate_videos.py ./generator.pt ./input_img.png ./ouput
-    
+    # generate_videos.py <model> <input_img> <target class> <output_folder>
+    # ex) generate_videos.py ./generator.pt ./input_img.png disgust ./ouput
+    # target clss = disgust / happiness / surprise
     generator = torch.load(args["<model>"], map_location={'cuda:0': 'cpu'})
     generator.eval()
     num_videos = int(args['--num_videos'])
     output_folder = args['<output_folder>']
     img_path = args['<input_image>']
+    target_class = args['<target_class>'] #0,1,2로 입력
+
+
 
     img = Image.open(img_path)
     img_tmp = np.array(img)
-    image = torch.from_numpy(img_tmp)
+    image = torch.from_numpy(img_tmp)#input img -> tensor
+
+    if target_class == "disgust" :
+        target_class_onehot = torch.from_numpy(np.array[1,0,0])
+    elif target_class == "happiness" :
+        target_class_onehot = torch.from_numpy(np.array[0,1,0]) 
+    else :
+        target_class_onehot = torch.from_numpy(np.array[0,0,1])
 
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     for i in range(num_videos):
-        v, _ = generator.sample_videos(image,1, int(args['--number_of_frames']))
+        v, _ = generator.sample_videos(image,1, target_class_onehot,int(args['--number_of_frames']))
         video = videos_to_numpy(v).squeeze().transpose((1, 2, 3, 0))
         save_video(args["--ffmpeg"], video, os.path.join(output_folder, "{}.{}".format(i, args['--output_format'])))

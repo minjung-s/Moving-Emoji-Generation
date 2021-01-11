@@ -134,13 +134,13 @@ class UNet(nn.Module):
     이미지 임베딩벡터와 z_motion,z_category와 concate되어 디코더 통과
     디코더 피쳐맵에, 인코더 피쳐맵과 z_motion임베딩값 z_cateogry임베딩값 concate
     """
-    def __init__(self, n_class, n_channels, z_motion, z_category_labels, batch_size,video_length):
+    def __init__(self, n_class, n_channels, z_motion, batch_size,video_length):
         super().__init__()
 
         self.n_class = n_class
         self.z_noise = torch.from_numpy(np.random.normal(0, 1, (batch_size, 100)).astype(np.float32))
         self.z_motion = z_motion
-        self.z_category = z_category_labels
+        #self.z_category = z_category_labels
         self.n_channels = n_channels
         self.video_length = video_length
 
@@ -188,7 +188,7 @@ class UNet(nn.Module):
         self.conv_last = nn.ConvTranspose2d(48, self.n_channels,  4, 2, padding=1) #output feature map W,H = 64
         
         
-    def forward(self,image):
+    def forward(self,image,z_category):
         conv1 = self.conv_down1(image)
         conv1 = self.conv_down_acf1(conv1)
         print("conv1 shape : ",conv1.shape)
@@ -210,19 +210,19 @@ class UNet(nn.Module):
         x = self.linear(x)
 
         if torch.cuda.is_available():
-            self.z_category = self.z_category.cuda()
+            z_category = z_category.cuda()
             self.z_motion = self.z_motion.cuda()
             x = x.cuda()
             self.z_noise = self.z_noise.cuda()
 
         x = x.repeat(self.video_length,1)
         z_noise_1 = self.z_noise.repeat(self.video_length,1)
-        print("z_category shape : ",self.z_category.shape)
+        print("z_category shape : ",z_category.shape)
         print("z_motion shape : ",self.z_motion.shape)
         print("x shape : ",x.shape)
         print("z_noise_1 shape : ",z_noise_1.shape)
 
-        p = torch.cat([self.z_category, self.z_motion, x, z_noise_1], dim=1)
+        p = torch.cat([z_category, self.z_motion, x, z_noise_1], dim=1)
         # x : 200, noise : 100, z_motion: 13, categ_embedding : 3
         p = p.view(p.size(0),p.size(1),1,1)#[b,316,1,,]
         print("p shape : ",p.shape)
@@ -233,7 +233,7 @@ class UNet(nn.Module):
         print("u_conv4 shape : ",x.shape) #128, 2, 2
         conv4 = conv4.repeat(self.video_length,1,1,1)
 
-        categ_embedding_1 = self.embedding_c1(self.z_category)
+        categ_embedding_1 = self.embedding_c1(z_category)
         #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_1 = categ_embedding_1.reshape(categ_embedding_1.size(0),categ_embedding_1.size(1),x.size(2),x.size(3))
 
@@ -257,7 +257,7 @@ class UNet(nn.Module):
         print("u_conv3 shape : ",x.shape)
         conv3 = conv3.repeat(self.video_length,1,1,1)
 
-        categ_embedding_2 = self.embedding_c2(self.z_category)
+        categ_embedding_2 = self.embedding_c2(z_category)
         #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_2 = categ_embedding_2.reshape(categ_embedding_2.size(0),categ_embedding_2.size(1),x.size(2),x.size(3))
 
@@ -281,7 +281,7 @@ class UNet(nn.Module):
         conv2 = conv2.repeat(self.video_length,1,1,1)
 
 
-        categ_embedding_3 = self.embedding_c3(self.z_category)
+        categ_embedding_3 = self.embedding_c3(z_category)
         #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_3 = categ_embedding_3.reshape(categ_embedding_3.size(0),categ_embedding_3.size(1),x.size(2),x.size(3))
 
@@ -306,7 +306,7 @@ class UNet(nn.Module):
         print(type(conv1))
 
 
-        categ_embedding_4 = self.embedding_c4(self.z_category)
+        categ_embedding_4 = self.embedding_c4(z_category)
         #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_4 = categ_embedding_4.reshape(categ_embedding_4.size(0),categ_embedding_4.size(1),x.size(2),x.size(3))
 
@@ -388,15 +388,19 @@ class VideoGenerator(nn.Module):
             z = z_motion
         return z, z_category, z_category_labels
 
-    def sample_videos(self, image, num_samples, video_len=None): # main network(Unet)으로 video 만들기
+    def sample_videos(self, image, num_samples, target_class=None, video_len=None): # main network(Unet)으로 video 만들기
         video_len = video_len if video_len is not None else self.video_length
-
+        self.video_length
         z,  z_category, z_category_labels = self.sample_z_video(num_samples, video_len)
+
+        if target_class is not None : #inference
+            z_category = self.target_class
+            
         print("z shape:",z.shape)
 
-        main = UNet(self.n_class, self.n_channels, z,  z_category, num_samples,video_len)
+        main = UNet(self.n_class, self.n_channels, z, num_samples,video_len)
         main.cuda()
-        h = main(image)
+        h = main(image,z_category)
         print(type(h))
         h = h.view(int(h.size(0) / video_len), int(video_len), self.n_channels, h.size(3), h.size(3))
 
