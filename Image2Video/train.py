@@ -103,15 +103,12 @@ if __name__ == "__main__":
 
     dataset = data.VideoFolderDataset(args['<dataset>'], cache=os.path.join(args['<dataset>'], 'local.db'))
     image_dataset = data.ImageDataset(dataset, image_transforms)
-    image_loader = DataLoader(image_dataset, batch_size = image_batch, drop_last=True, num_workers=2, shuffle=True)
+    image_loader = DataLoader(image_dataset, batch_size=image_batch, drop_last=True, num_workers=2, shuffle=True)
 
     video_dataset = data.VideoDataset(dataset, 16, 2, video_transforms)
-    video_loader = DataLoader(video_dataset, batch_size = video_batch, drop_last=True, num_workers=2, shuffle=True)
+    video_loader = DataLoader(video_dataset, batch_size=video_batch, drop_last=True, num_workers=2, shuffle=True)
 
-    # generator = models.VideoGenerator(n_channels, dim_z_content, dim_z_category, dim_z_motion, video_length) 
-    generator = models.VideoGenerator(3, n_channels, image_loader, image_batch, dim_z_content, dim_z_category, dim_z_motion, video_length)# batch_size ? image? 
-    image_discriminator = build_discriminator(args['--image_discriminator'], n_channels=n_channels,
-                                              use_noise=args['--use_noise'], noise_sigma=float(args['--noise_sigma']))
+    generator = models.VideoGenerator(3,n_channels, dim_z_category, dim_z_motion, video_length)
 
     video_discriminator = build_discriminator(args['--video_discriminator'], dim_categorical=dim_z_category,
                                               n_channels=n_channels, use_noise=args['--use_noise'],
@@ -119,7 +116,6 @@ if __name__ == "__main__":
 
     if torch.cuda.is_available():
         generator.cuda()
-        image_discriminator.cuda()
         video_discriminator.cuda()
 
     trainer = Trainer(image_loader, video_loader,
@@ -130,4 +126,4 @@ if __name__ == "__main__":
                       use_infogan=args['--use_infogan'],
                       use_categories=args['--use_categories'])
 
-    trainer.train(generator, image_discriminator, video_discriminator)
+    trainer.train(generator,  video_discriminator)

@@ -12,6 +12,8 @@ from torchvision.datasets import ImageFolder
 import PIL
 
 
+
+
 class VideoFolderDataset(torch.utils.data.Dataset):
     def __init__(self, folder, cache, min_len=32):
         dataset = ImageFolder(folder)
@@ -19,13 +21,13 @@ class VideoFolderDataset(torch.utils.data.Dataset):
         self.lengths = []
         self.images = []
 
-
         for idx, (im, categ) in enumerate(
                 tqdm.tqdm(dataset, desc="Counting total number of frames")):
             img_path, _ = dataset.imgs[idx]
             shorter, longer = min(im.width, im.height), max(im.width, im.height)
             length = longer // shorter
-            if length >= min_len:
+            #print(min_len)
+            if length >= min_len-1:
                 self.images.append((img_path, categ))
                 self.lengths.append(length)
 
@@ -110,7 +112,7 @@ class VideoDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.dataset)
 
-"""
+
 class ImageSampler(torch.utils.data.Dataset):
     def __init__(self, dataset, transform=None):
         self.dataset = dataset
@@ -147,7 +149,7 @@ class VideoSampler(torch.utils.data.Dataset):
             result[k] = np.take(self.dataset.get_data()[k], ids, axis=0)
 
         subsequence_idx = None
-        print result[k].shape[0]
+        print(result[k].shape[0])
 
         # videos can be of various length, we randomly sample sub-sequences
         if result[k].shape[0] > self.video_length:
@@ -158,13 +160,13 @@ class VideoSampler(torch.utils.data.Dataset):
         elif result[k].shape[0] == self.video_length:
             subsequence_idx = np.arange(0, self.video_length)
         else:
-            print "Length is too short id - {}, len - {}".format(self.unique_ids[item], result[k].shape[0])
+            print("Length is too short id - {}, len - {}".format(self.unique_ids[item], result[k].shape[0]))
 
         if subsequence_idx:
             for k in self.dataset.keys:
                 result[k] = np.take(result[k], subsequence_idx, axis=0)
         else:
-            print result[self.dataset.keys[0]].shape
+            print(result[self.dataset.keys[0]].shape)
 
         if self.transforms is not None:
             for k, transform in self.transforms.iteritems():
@@ -174,4 +176,3 @@ class VideoSampler(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.unique_ids)
-"""
