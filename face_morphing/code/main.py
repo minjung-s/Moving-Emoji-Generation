@@ -25,7 +25,17 @@ def img_file_to_gif(img_list, output_file_name):
     ## imge 파일 리스트로부터 gif 생성 
     imgs_array = [np.array(imageio.imread(img_file)) for img_file in img_list]
 
-    imageio.mimsave(output_file_name, imgs_array, duration=0.5)
+    imageio.mimsave(output_file_name, imgs_array, duratison=0.5)
+
+def img_file_to_video(img_list, output_file_name):
+
+	size = (1024,1024)
+	out = cv2.VideoWriter(output_file_name,cv2.VideoWriter_fourcc(*'DIVX'), 3, size)
+
+	for i in range(len(img_list)):
+		out.write(img_list[i])
+	out.release()
+
 
 
 if __name__ == "__main__":
@@ -33,12 +43,14 @@ if __name__ == "__main__":
 	parser.add_argument("--img1" ,required= True, help="The First Image")
 	parser.add_argument("--landmark_path" ,required= True, help="landmark dir")
 	parser.add_argument("--save_image_path" ,required= True, help="save_image dir")
-	parser.add_argument("--output", default='results/emoticon.gif',help="Output Video Path")
+	parser.add_argument("--output", default='results/emoticon.mp4',help="Output Video Path")
+	parser.add_argument("--output_file", required = True ,help="Output Video file (mp4/gif)")
 	
 	# parser.add_argument("--img1" ,default = 'images/aligned_images/001228_01.png', help="The First Image")
 	# parser.add_argument("--landmark_path", default = 'landmark', help="landmark dir")
 	# parser.add_argument("--save_image_path",default = 'save_image', help="save_image dir")
 	# parser.add_argument("--output", default='results/emoticon.gif',help="Output Video Path")
+	# parser.add_argument("--output_file", required = True ,help="Output Video file (mp4/gif)")
 	
 	args = parser.parse_args()
 
@@ -72,7 +84,14 @@ if __name__ == "__main__":
 		img_path_list = []
 		for img in img_list:
 			img_path_list.append(os.path.join(args.save_image_path,img))
-		img_file_to_gif(img_path_list, args.output)
+		
+		print(image_path_list)
+				
+		if args.output_file == 'gif':
+			img_file_to_gif(img_path_list, args.output)
+		else:
+			img_file_to_video(img_path_list, args.output)
+
 
 		print('complete')
 
