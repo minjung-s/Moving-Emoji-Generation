@@ -48,7 +48,10 @@ for t in range(50):
     t_landmark = outputs[t]
     temp_dict = dict()
     for i in range(68):
-        temp_dict[str(i)] = list(map(lambda x: int(round(x)),t_landmark[2*i:2*(i +1)]))
+        if i < 17: #1-17 landmark는 source landmark의 좌표값 유지
+            temp_dict[str(i)] = data[str(i)]
+        else:
+            temp_dict[str(i)] = list(map(lambda x: int(round(x)),t_landmark[2*i:2*(i +1)]))
 
     landmark[str(t)] = temp_dict
 
