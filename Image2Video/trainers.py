@@ -173,7 +173,8 @@ class Trainer(object):
         # training loop
 
         def sample_fake_video_batch(batch,batch_size):
-            return generator.sample_videos(batch,batch_size)
+            target_class = generator.sample_z_video(batch)
+            return generator.sample_videos(batch,batch_size,target_class)
 
         def init_logs():
             return {'l_gen': 0, 'l_video_dis': 0}
