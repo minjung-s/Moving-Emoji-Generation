@@ -99,20 +99,22 @@ class Trainer(object):
             self.video_enumerator = enumerate(self.video_sampler)
 
         return b
-    def train_discriminator(self, discriminator, sample_image_true, sample_video_true, sample_fake, opt, batch_size, use_categories):
+    def train_discriminator(self, discriminator, sample_image_true, sample_video_true, sample_fake, opt, batch_size, use_categories=True):
         opt.zero_grad()
 
         real_image_batch = sample_image_true() #video dataloader
         image_batch = Variable(real_image_batch['images'], requires_grad=False)
-        print("discriminator image batch shape : ", image_batch.shape)
+        #print("discriminator image batch shape : ", image_batch.shape)
 
         real_video_batch = sample_video_true()
         video_batch = Variable(real_video_batch['images'], requires_grad=False)
-        print("discriminator video batch shape : ", video_batch.shape)
+        #print("discriminator video batch shape : ", video_batch.shape)
 
         # util.show_batch(batch.data)
 
         fake_batch, generated_categories = sample_fake(image_batch,batch_size)
+        #print("========================================")
+        #print(video_batch.shape,fake_batch.shape)
 
         real_labels, real_categorical = discriminator(video_batch)
         fake_labels, fake_categorical = discriminator(fake_batch.detach())
@@ -125,7 +127,7 @@ class Trainer(object):
 
         if use_categories:
             # Ask the video discriminator to learn categories from training videos
-            categories_gt = Variable(torch.squeeze(real_batch['categories'].long()), requires_grad=False)
+            categories_gt = Variable(torch.squeeze(real_video_batch['categories'].long()), requires_grad=False)
             l_discriminator += self.category_criterion(real_categorical.squeeze(), categories_gt)
 
         l_discriminator.backward()
@@ -142,13 +144,16 @@ class Trainer(object):
         # train on videos
         real_batch = sample_true() #image dataloader
         batch = Variable(real_batch['images'], requires_grad=False)
-        print("generator batch shape :",batch.shape)
+        #print("generator batch shape :",batch.shape)
 
         fake_batch, generated_categories = sample_fake_videos(batch,self.video_batch_size)
         fake_labels, fake_categorical = video_discriminator(fake_batch)
         all_ones = self.ones_like(fake_labels)
 
         l_generator = self.gan_criterion(fake_labels, all_ones)
+
+        if torch.cuda.is_available() :
+          generated_categories = generated_categories.cuda()
 
         if self.use_infogan:
             # Ask the generator to generate categories recognizable by the discriminator
@@ -173,8 +178,7 @@ class Trainer(object):
         # training loop
 
         def sample_fake_video_batch(batch,batch_size):
-            target_class = generator.sample_z_video(batch)
-            return generator.sample_videos(batch,batch_size,target_class)
+            return generator.sample_videos(batch,batch_size)
 
         def init_logs():
             return {'l_gen': 0, 'l_video_dis': 0}
@@ -225,7 +229,7 @@ class Trainer(object):
                 generator.eval()
 
                 torch.save(generator, os.path.join(self.log_folder, 'generator_%05d.pytorch' % batch_num))
-
+                print("model save in :",os.path.join(self.log_folder, 'generator_%05d.pytorch' % batch_num))
             if batch_num >= self.train_batches:
                 torch.save(generator, os.path.join(self.log_folder, 'generator_%05d.pytorch' % batch_num))
                 break

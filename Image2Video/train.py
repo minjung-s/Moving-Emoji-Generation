@@ -34,7 +34,7 @@ Options:
     --print_every=<count>           print every iterations [default: 1]
     --n_channels=<count>            number of channels in the input data [default: 3]
     --every_nth=<count>             sample training videos using every nth frame [default: 4]
-    --batches=<count>               specify number of batches to train [default: 100000]
+    --batches=<count>               specify number of batches to train [default: 10]
 
     --dim_z_content=<count>         dimensionality of the content input, ie hidden space [default: 50]
     --dim_z_motion=<count>          dimensionality of the motion input [default: 10]

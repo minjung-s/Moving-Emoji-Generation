@@ -27,7 +27,7 @@ class VideoFolderDataset(torch.utils.data.Dataset):
             shorter, longer = min(im.width, im.height), max(im.width, im.height)
             length = longer // shorter
             #print(min_len)
-            if length >= min_len-1:
+            if length >= min_len:
                 self.images.append((img_path, categ))
                 self.lengths.append(length)
 
