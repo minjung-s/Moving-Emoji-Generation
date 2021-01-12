@@ -3,7 +3,7 @@
 ---
 ## image2video(by minjung)
 ### Requirements
-- CUDA 10.1 
+- CUDA 10.2
 - pytorch 3.x
 - pytorch
 - torchvision
