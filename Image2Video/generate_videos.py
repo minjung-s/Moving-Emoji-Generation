@@ -30,25 +30,6 @@ from PIL import Image
 
 from trainers import videos_to_numpy
 
-import subprocess as sp
-
-def save_video(ffmpeg, video, filename):
-    command = [ffmpeg,
-               '-y',
-               '-f', 'rawvideo',
-               '-vcodec', 'rawvideo',
-               '-s', '64x64',
-               '-pix_fmt', 'rgb24',
-               '-r', '8',
-               '-i', '-',
-               '-c:v', 'mjpeg',
-               '-q:v', '3',
-               '-an',
-               filename]
-
-    pipe = sp.Popen(command, stdin=sp.PIPE, stderr=sp.PIPE)
-    pipe.stdin.write(video.tostring())
-
 
 if __name__ == "__main__":
     print("hi")
@@ -74,10 +55,8 @@ if __name__ == "__main__":
     #image = torch.from_numpy(img_tmp)#input img -> tensor
 
     image = torchvision.transforms.functional.to_tensor(img_tmp)
-    print(image.shape)
     image=image.unsqueeze(0)
     #image = image.permute(3, 1, 2)
-    print(image.shape)
     
     if target_class == "disgust" :
         target_class_onehot = torch.from_numpy(np.array([1,0,0]))
@@ -96,6 +75,6 @@ if __name__ == "__main__":
         video = videos_to_numpy(v).squeeze().transpose((1, 2, 3, 0))
 
         imageio.mimsave(os.path.join(output_folder, "mine.gif"), video)
-        #save_video(args["--ffmpeg"], video, os.path.join(output_folder,"mine.gif"))
+       
         
         print("save!")
