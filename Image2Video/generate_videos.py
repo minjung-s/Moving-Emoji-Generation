@@ -43,21 +43,19 @@ if __name__ == "__main__":
     num_videos = int(args['--num_videos'])
     output_folder = args['<output_folder>']
     img_path = args['<input_img>']
-    target_class = args['<target_class>'] #0,1,2로 입력
+    target_class = args['<target_class>'] #class로 입력
     number_of_frames = int(args['--number_of_frames'])
 
 
-
+    # model input에 맞게 image 변환
     img = Image.open(img_path)
     img = img.resize((64, 64), Image.LANCZOS)
     img_tmp = np.array(img)
-    #img_tmp = np.reshape(img_tmp, ((1,) + img_tmp.shape))
-    #image = torch.from_numpy(img_tmp)#input img -> tensor
 
     image = torchvision.transforms.functional.to_tensor(img_tmp)
     image=image.unsqueeze(0)
-    #image = image.permute(3, 1, 2)
     
+    # class -> one hot
     if target_class == "disgust" :
         target_class_onehot = torch.from_numpy(np.array([1,0,0]))
     elif target_class == "happiness" :
@@ -65,12 +63,12 @@ if __name__ == "__main__":
     else :
         target_class_onehot = torch.from_numpy(np.array([0,0,1]))
 
-    print(target_class_onehot)
+    # model input에 맞게 변환
     target_class_onehot = target_class_onehot.repeat(number_of_frames,1)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    for i in range(num_videos):
+    for i in range(num_videos): # 뽑을 video 수 만큼 iter
         v, _ = generator.sample_videos(image,1, target_class_onehot,number_of_frames)
         video = videos_to_numpy(v).squeeze().transpose((1, 2, 3, 0))
 
