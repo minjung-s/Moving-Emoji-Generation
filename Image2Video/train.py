@@ -38,7 +38,7 @@ Options:
 
     --dim_z_content=<count>         dimensionality of the content input, ie hidden space [default: 50]
     --dim_z_motion=<count>          dimensionality of the motion input [default: 10]
-    --dim_z_category=<count>        dimensionality of categorical input [default: 6]
+    --dim_z_category=<count>        dimensionality of categorical input [default: 3]
 """
 
 import os
@@ -105,10 +105,13 @@ if __name__ == "__main__":
     image_dataset = data.ImageDataset(dataset, image_transforms)
     image_loader = DataLoader(image_dataset, batch_size=image_batch, drop_last=True, num_workers=2, shuffle=True)
 
-    video_dataset = data.VideoDataset(dataset, 16, 2, video_transforms)
+    video_dataset = data.VideoDataset(dataset, video_length, 2, video_transforms)
     video_loader = DataLoader(video_dataset, batch_size=video_batch, drop_last=True, num_workers=2, shuffle=True)
 
     generator = models.VideoGenerator(3,n_channels, dim_z_category, dim_z_motion, video_length)
+    
+    image_discriminator = build_discriminator(args['--image_discriminator'], n_channels=n_channels,
+                                              use_noise=args['--use_noise'], noise_sigma=float(args['--noise_sigma']))
 
     video_discriminator = build_discriminator(args['--video_discriminator'], dim_categorical=dim_z_category,
                                               n_channels=n_channels, use_noise=args['--use_noise'],
@@ -116,6 +119,7 @@ if __name__ == "__main__":
 
     if torch.cuda.is_available():
         generator.cuda()
+        image_discriminator.cuda()
         video_discriminator.cuda()
 
     trainer = Trainer(image_loader, video_loader,
@@ -126,4 +130,4 @@ if __name__ == "__main__":
                       use_infogan=args['--use_infogan'],
                       use_categories=args['--use_categories'])
 
-    trainer.train(generator,  video_discriminator)
+    trainer.train(generator, image_discriminator, video_discriminator)

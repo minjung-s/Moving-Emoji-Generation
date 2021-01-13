@@ -10,12 +10,13 @@ import numpy as np
 import torch.utils.data
 from torchvision.datasets import ImageFolder
 import PIL
+from PIL import Image
 
 
 
 
 class VideoFolderDataset(torch.utils.data.Dataset):
-    def __init__(self, folder, cache, min_len=32):
+    def __init__(self, folder, cache, min_len=16):
         dataset = ImageFolder(folder)
         self.total_frames = 0
         self.lengths = []
@@ -26,8 +27,8 @@ class VideoFolderDataset(torch.utils.data.Dataset):
             img_path, _ = dataset.imgs[idx]
             shorter, longer = min(im.width, im.height), max(im.width, im.height)
             length = longer // shorter
-            #print(min_len)
-            if length >= min_len:
+            #print(min_len,length)
+            if length >= min_len-1:
                 self.images.append((img_path, categ))
                 self.lengths.append(length)
 
@@ -63,15 +64,17 @@ class ImageDataset(torch.utils.data.Dataset):
         horizontal = video.shape[1] > video.shape[0]
 
         if horizontal:
-            i_from, i_to = video.shape[0] * frame_num, video.shape[0] * (frame_num + 1)
+            i_from = 0
+            i_to = 64
+            # i_from, i_to = video.shape[0] * frame_num, video.shape[0] * (frame_num + 1)
             frame = video[:, i_from: i_to, ::]
         else:
-            i_from, i_to = video.shape[1] * frame_num, video.shape[1] * (frame_num + 1)
+            i_from = 0
+            i_to = 64
+            # i_from, i_to = video.shape[1] * frame_num, video.shape[1] * (frame_num + 1)
             frame = video[i_from: i_to, :, ::]
-
         if frame.shape[0] == 0:
             print("video {}. From {} to {}. num {}".format(video.shape, i_from, i_to, item))
-
         return {"images": self.transforms(frame), "categories": target}
 
     def __len__(self):

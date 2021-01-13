@@ -11,7 +11,7 @@ Usage:
     generate_videos.py [options] <model> <input_img> <target_class> <output_folder>
 
 Options:
-    -n, --num_videos=<count>                number of videos to generate [default: 5]
+    -n, --num_videos=<count>                number of videos to generate [default: 1]
     -o, --output_format=<ext>               save videos as [default: gif]
     -f, --number_of_frames=<count>          generate videos with that many frames [default: 16]
 
@@ -31,7 +31,6 @@ from PIL import Image
 from trainers import videos_to_numpy
 
 import subprocess as sp
-
 
 def save_video(ffmpeg, video, filename):
     command = [ffmpeg,
@@ -95,6 +94,8 @@ if __name__ == "__main__":
     for i in range(num_videos):
         v, _ = generator.sample_videos(image,1, target_class_onehot,number_of_frames)
         video = videos_to_numpy(v).squeeze().transpose((1, 2, 3, 0))
-        print(video.shape)
-        imageio.mimsave(os.path.join(output_folder, "{}.{}".format(i, args['--output_format'])), video)
+
+        imageio.mimsave(os.path.join(output_folder, "mine.gif"), video)
+        #save_video(args["--ffmpeg"], video, os.path.join(output_folder,"mine.gif"))
+        
         print("save!")

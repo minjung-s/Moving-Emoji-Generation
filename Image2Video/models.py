@@ -9,6 +9,9 @@ import torch.nn.parallel
 import torch.utils.data
 from torch.autograd import Variable
 
+import math
+from torch.nn.modules.utils import _triple
+
 import numpy as np
 
 if torch.cuda.is_available():
@@ -27,6 +30,70 @@ class Noise(nn.Module):
         if self.use_noise:
             return x + self.sigma * Variable(T.FloatTensor(x.size()).normal_(), requires_grad=False)
         return x
+
+
+class ImageDiscriminator(nn.Module):
+    def __init__(self, n_channels, ndf=64, use_noise=False, noise_sigma=None):
+        super(ImageDiscriminator, self).__init__()
+
+        self.use_noise = use_noise
+
+        self.main = nn.Sequential(
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(n_channels, ndf, 4, 2, 1, bias=False),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 8),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+        )
+
+    def forward(self, input):
+        h = self.main(input).squeeze()
+        return h, None
+
+
+class PatchImageDiscriminator(nn.Module):
+    def __init__(self, n_channels, ndf=64, use_noise=False, noise_sigma=None):
+        super(PatchImageDiscriminator, self).__init__()
+
+        self.use_noise = use_noise
+
+        self.main = nn.Sequential(
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(n_channels, ndf, 4, 2, 1, bias=False),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ndf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            Noise(use_noise, sigma=noise_sigma),
+            nn.Conv2d(ndf * 4, 1, 4, 2, 1, bias=False),
+        )
+
+    def forward(self, input):
+        h = self.main(input).squeeze()
+        return h, None
 
 class PatchVideoDiscriminator(nn.Module):
     def __init__(self, n_channels, n_output_neurons=1, bn_use_gamma=True, use_noise=False, noise_sigma=None, ndf=64):
@@ -61,6 +128,69 @@ class PatchVideoDiscriminator(nn.Module):
         return h, None
 
 
+
+class SpatioTemporalConv(nn.Module):
+    
+    #12.20 Relu->LeakyRelU
+    r"""Applies a factored 3D convolution over an input signal composed of several input 
+    planes with distinct spatial and time axes, by performing a 2D convolution over the 
+    spatial axes to an intermediate subspace, followed by a 1D convolution over the time 
+    axis to produce the final output.
+    Args:
+        in_channels (int): Number of channels in the input tensor
+        out_channels (int): Number of channels produced by the convolution
+        kernel_size (int or tuple): Size of the convolving kernel
+        stride (int or tuple, optional): Stride of the convolution. Default: 1
+        padding (int or tuple, optional): Zero-padding added to the sides of the input during their respective convolutions. Default: 0
+        bias (bool, optional): If ``True``, adds a learnable bias to the output. Default: ``True``
+    """
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, bias=True):
+        super(SpatioTemporalConv, self).__init__()
+
+        # if ints are entered, convert them to iterables, 1 -> [1, 1, 1]
+        kernel_size = _triple(kernel_size)
+        stride = _triple(stride)
+        padding = _triple(padding)
+
+        # decomposing the parameters into spatial and temporal components by
+        # masking out the values with the defaults on the axis that
+        # won't be convolved over. This is necessary to avoid unintentional
+        # behavior such as padding being added twice
+        spatial_kernel_size =  [1, kernel_size[1], kernel_size[2]]
+        spatial_stride =  [1, stride[1], stride[2]]
+        spatial_padding =  [0, padding[1], padding[2]]
+
+        temporal_kernel_size = [kernel_size[0], 1, 1]
+        temporal_stride =  [stride[0], 1, 1]
+        temporal_padding =  [padding[0], 0, 0]
+
+        # compute the number of intermediary channels (M) using formula 
+        # from the paper section 3.5
+        intermed_channels = int(math.floor((kernel_size[0] * kernel_size[1] * kernel_size[2] * in_channels * out_channels)/ \
+                            (kernel_size[1]* kernel_size[2] * in_channels + kernel_size[0] * out_channels)))
+
+        # the spatial conv is effectively a 2D conv due to the 
+        # spatial_kernel_size, followed by batch_norm and ReLU
+        self.spatial_conv = nn.Conv3d(in_channels, intermed_channels, spatial_kernel_size,
+                                    stride=spatial_stride, padding=spatial_padding, bias=bias)
+        self.bn = nn.BatchNorm3d(intermed_channels)
+        self.leakyrelu = nn.LeakyReLU()
+
+        # the temporal conv is effectively a 1D conv, but has batch norm 
+        # and ReLU added inside the model constructor, not here. This is an 
+        # intentional design choice, to allow this module to externally act 
+        # identical to a standard Conv3D, so it can be reused easily in any 
+        # other codebase
+        self.temporal_conv = nn.Conv3d(intermed_channels, out_channels, temporal_kernel_size, 
+                                    stride=temporal_stride, padding=temporal_padding, bias=bias)
+
+    def forward(self, x):
+        x = self.leakyrelu(self.bn(self.spatial_conv(x)))
+        x = self.temporal_conv(x)
+        return x
+
+
 class VideoDiscriminator(nn.Module):
     def __init__(self, n_channels, n_output_neurons=1, bn_use_gamma=True, use_noise=False, noise_sigma=None, ndf=64):
         super(VideoDiscriminator, self).__init__()
@@ -69,28 +199,34 @@ class VideoDiscriminator(nn.Module):
         self.n_output_neurons = n_output_neurons
         self.use_noise = use_noise
         self.bn_use_gamma = bn_use_gamma
+        #self.SpatioTemporalConv = SpatioTemporalConv()???
 
         self.main = nn.Sequential(
             Noise(use_noise, sigma=noise_sigma),
-            nn.Conv3d(n_channels, ndf, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
+            SpatioTemporalConv(n_channels, ndf, 4, stride=[1, 2, 2], padding=[0, 1, 1], bias=False),
+            #nn.Conv3d(n_channels, ndf, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
             nn.LeakyReLU(0.2, inplace=True),
 
             Noise(use_noise, sigma=noise_sigma),
-            nn.Conv3d(ndf, ndf * 2, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
+            SpatioTemporalConv(ndf, ndf * 2, 4, stride=[1, 2, 2], padding=[0, 1, 1], bias=False),
+            #nn.Conv3d(ndf, ndf * 2, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
             nn.BatchNorm3d(ndf * 2),
             nn.LeakyReLU(0.2, inplace=True),
 
             Noise(use_noise, sigma=noise_sigma),
-            nn.Conv3d(ndf * 2, ndf * 4, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
+            SpatioTemporalConv(ndf * 2,ndf * 4, 4, stride=[1, 2, 2], padding=[0, 1, 1], bias=False),
+            #nn.Conv3d(ndf * 2, ndf * 4, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
             nn.BatchNorm3d(ndf * 4),
             nn.LeakyReLU(0.2, inplace=True),
 
             Noise(use_noise, sigma=noise_sigma),
-            nn.Conv3d(ndf * 4, ndf * 8, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
+            SpatioTemporalConv(ndf * 4, ndf * 8, 4, stride=[1, 2, 2], padding=[0, 1, 1], bias=False),
+            #nn.Conv3d(ndf * 4, ndf * 8, 4, stride=(1, 2, 2), padding=(0, 1, 1), bias=False),
             nn.BatchNorm3d(ndf * 8),
             nn.LeakyReLU(0.2, inplace=True),
 
-            nn.Conv3d(ndf * 8, n_output_neurons, 4, 1, 0, bias=False),
+            SpatioTemporalConv(ndf * 8, n_output_neurons, 4, stride=1, padding=0, bias=False),
+            #nn.Conv3d(ndf * 8, n_output_neurons, 4, 1, 0, bias=False),
         )
 
     def forward(self, input):
@@ -190,6 +326,7 @@ class UNet(nn.Module):
         
         
     def forward(self,image,z_category):
+        
         #print(int(torch.max(self.z_motion).item()))
         #print(torch.max(self.z_motion).item())
         conv1 = self.conv_down1(image)
@@ -226,6 +363,7 @@ class UNet(nn.Module):
         print("x shape : ",x.shape)
         print("z_noise_1 shape : ",z_noise_1.shape)
         """
+
 
         p = torch.cat([z_category, self.z_motion, x, z_noise_1], dim=1)
         # x : 200, noise : 100, z_motion: 13, categ_embedding : 3
@@ -305,8 +443,7 @@ class UNet(nn.Module):
         #print("cat after u_conv1 shape : ",x.shape)
 
         out = self.conv_last(x)
-        #print("result shape : ",out.shape)
-        
+
         return out
 
 
@@ -390,6 +527,22 @@ class VideoGenerator(nn.Module):
         #print("h shape:",h.shape)
         h = h.permute(0, 2, 1, 3, 4)
         return h, Variable(z_category_labels, requires_grad=False)
+    
+    def sample_images(self, image, num_samples, video_len=None):
+        video_len = video_len if video_len is not None else self.video_length
+
+        z,  z_category, z_category_labels = self.sample_z_video(num_samples, video_len)
+
+        h, _ = self.sample_videos(image, num_samples, None, video_len)
+        h_result =[]
+        for i in range(num_samples):
+          j = np.random.randint(video_len)
+          img_frame = h[i,:,j,:,:]
+          h_result.append(img_frame)
+        h_result = torch.stack(h_result)
+
+        return h_result, None
+
 
     def get_gru_initial_state(self, num_samples): #z_motion만드는 recurrent(GRU cell) network input
         return Variable(T.FloatTensor(num_samples, self.dim_z_motion).normal_())
