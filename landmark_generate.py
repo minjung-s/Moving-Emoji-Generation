@@ -58,7 +58,7 @@ def sol1_generate_landmark(landmark, condition):
 
     input_landmark = np.array(input_landmark)
 
-    cond_dict = {'disgust':0, 'happiness':1, 'surprise':2}
+    cond_dict = {'disgusted':0, 'happiness':1, 'surprise':2}
     c = cond_dict[condition]
 
     input_landmark = torch.tensor(np.exp(input_landmark/1024))
@@ -114,8 +114,3 @@ def sol2_generate_landmark(file_path, output_type, condition, duration):
 
     saved_name = file_path[:-3] + output_type
     save_videos(saved_name, video, duration=duration)
-
-
-
-
-    
