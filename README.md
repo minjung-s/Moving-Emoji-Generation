@@ -93,11 +93,6 @@ Generate the predicted landmarks using sol2 model
 |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |   <img src="images/soonmoo.jpeg" width="150" height="150">|
 
 
-
-## Thanks
-- 투빅스 12기 김수아님
-  
-
 ## Reference
 - Rosinality, stylegan2-pytorch,  2019, [https://github.com/rosinality/stylegan2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
 - PieraRiccio, stylegan2-pytorch, 2019, [https://github.com/PieraRiccio/stylegan2-pytorch](https://github.com/PieraRiccio/stylegan2-pytorch)
@@ -106,3 +101,18 @@ Generate the predicted landmarks using sol2 model
 - sergeytulyakov, mocogan, 2017, https://github.com/sergeytulyakov/mocogan
 - Yaohui Wang, Piotr Bilinski, Francois Bremond, Antitza Dantcheva. ImaGINator: Conditional Spatio-Temporal GAN for Video Generation. 2019.
 
+
+## Contributor 🌟
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
+    <td align="center"><a href="https://github.com/yourmean"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YooMin Lee</b></sub></td>
+    <td align="center"><a href="(https://github.com/simba-pumba"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
+    <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
+    <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
+    <td align="center"><a href="https://github.com/shkim960520"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>SangHyun Kim</b></sub></td>
+    <td align="center"><a href="https://github.com/Jeong-JaeYoon"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>JaeYoon Jeong</b></sub></td>
+    <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YooJin Han</b></sub></td>
