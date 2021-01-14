@@ -1,4 +1,5 @@
 # 🙂Moving-Emoji-Generation🤥
+<img src="images/main.png" width="700" height="400">
 
 
 ## 투빅티콘 - Image2Video 기반 나만의 움직이는 이모티콘 생성
@@ -67,7 +68,7 @@ Train the landmark generation model using sol2 approach
 
 Generate the predicted landmarks using sol2 model
 
-> python so2/generate_videos.py [model path] [image] [class] [save_path]
+> python sol2/generate_videos.py [model path] [image] [class] [save_path]
 
 ## Pretrained Checkpoints
 
