@@ -22,9 +22,9 @@ EmoGE'T(Emoji GEneratied by Tobigs)은 투빅스 8명의 멤버가 모여 image2
 
 
 이모지 감정 선택
-| Happiness  |  Disgusted | Sadness  | 
+| Happiness  |  Disgusted | Surprise  | 
 |---|---|---|
-|  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/sad.jpg" width="150" height="150"> | 
+|  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/surprise.png" width="150" height="150"> | 
 
 위의 옵션에 따라, 학습된 모델이 나만의 움직이는 이모티콘을 만들어 줍니다.
 
@@ -61,19 +61,19 @@ Train the landmark generation model using sol1 approach
 
 > python sol1/main.py --data_path DataPath --conditions Conditions
 
-Generate the predicted landmarks using sol1 model
-
-> python so1/generate_videos.py [model path] [image] [class] [save_path]
-
 Train the landmark generation model using sol2 approach
 
-> python sol1/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
+> python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
 
 Generate the predicted landmarks using sol2 model
 
-> python so1/generate_videos.py [model path] [image] [class] [save_path]
+> python so2/generate_videos.py [model path] [image] [class] [save_path]
 
+## Pretrained Checkpoints
 
+[Animation]()
+[Baby]()
+[Painting]()
 
 ## Samples
 
@@ -88,9 +88,9 @@ Generate the predicted landmarks using sol2 model
 
 | 14기  |   |   |   |
 |---|---|---|---|
-| [김민경]("[https://github.com/mink7878](https://github.com/mink7878)")  |  [김상현]("[https://github.com/shkim960520](https://github.com/shkim960520)") |  [정재윤]("[https://github.com/Jeong-JaeYoon](https://github.com/Jeong-JaeYoon)) |  [한유진]("[https://github.com/Yu-Jin22](https://github.com/Yu-Jin22)") |
-
+| [김민경]("[https://google.com](https://github.com/minjung-s)") |  [김상현]("[https://github.com/yourmean](https://github.com/yourmean)") |  [정재윤]("[https://github.com/simba-pumba](https://github.com/simba-pumba)") |  [한유진]("[https://github.com/lilly9117](https://github.com/lilly9117)") |
 |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |   <img src="images/soonmoo.jpeg" width="150" height="150">|
+
 
 
 ## Thanks
@@ -98,11 +98,10 @@ Generate the predicted landmarks using sol2 model
   
 
 ## Reference
-
-- [https://github.com/rosinality/stylegan2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
-- [https://github.com/PieraRiccio/stylegan2-pytorch](https://github.com/PieraRiccio/stylegan2-pytorch)
-- [https://github.com/justinpinkney/toonify](https://github.com/justinpinkney/toonify)
-- [https://github.com/marsbroshok/face-replace](https://github.com/marsbroshok/face-replace)
-- [https://github.com/sergeytulyakov/mocogan](https://github.com/sergeytulyakov/mocogan) # sol2팀 확인좀요
-- Yaohui Wang, Piotr Bilinski, Francois Bremond, Antitza Dantcheva. ImaGINator: Conditional Spatio-Temporal GAN for Video Generation. 2019. # sol2팀 확인좀요
+- Rosinality, stylegan2-pytorch,  2019, [https://github.com/rosinality/stylegan2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
+- PieraRiccio, stylegan2-pytorch, 2019, [https://github.com/PieraRiccio/stylegan2-pytorch](https://github.com/PieraRiccio/stylegan2-pytorch)
+- justinpinkney, toonify, 2020, [https://github.com/justinpinkney/toonify](https://github.com/justinpinkney/toonify)
+- marsbroshok, face-replace, 2016, https://github.com/marsbroshok/face-replace
+- sergeytulyakov, mocogan, 2017, https://github.com/sergeytulyakov/mocogan
+- Yaohui Wang, Piotr Bilinski, Francois Bremond, Antitza Dantcheva. ImaGINator: Conditional Spatio-Temporal GAN for Video Generation. 2019.
 
