@@ -1,5 +1,5 @@
 from utils import init_argument, warp_f
-#from blended_image_generation import generate_image
+from blended_image_generation import generate_image
 from landmark_generate import landmark_detect, sol1_generate_landmark
 from copy import copy
 
@@ -8,8 +8,8 @@ transform_dic = {'animation': 'params/disney-blended.pt', 'baby': 'params/baby-b
 if __name__=="__main__":
 
     args = init_argument()
-    # model_path = transform_dic[args.transform]
-    # generate_image(args.file, model_path)
+    model_path = transform_dic[args.transform]
+    generate_image(args.file, model_path)
 
     if args.model == "sol1":
         first_landmark = landmark_detect(args.file)
