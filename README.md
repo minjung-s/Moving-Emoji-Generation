@@ -80,19 +80,6 @@ Generate the predicted landmarks using sol2 model
 
 <img src="images/example_3.gif" width="300" height="300"> <img src="images/example_2.gif" width="300" height="300"> <img src="images/example_1.gif" width="300" height="300"> <img src="example_1.gif" width="300" height="300">
 
-## Contributor 🌟
-
-| 13기  |   |   |   |
-|---|---|---|---|
-| [신민정]("[https://google.com](https://github.com/minjung-s)") |  [이유민]("[https://github.com/yourmean](https://github.com/yourmean)") |  [이예지]("[https://github.com/simba-pumba](https://github.com/simba-pumba)") |  [최혜빈]("[https://github.com/lilly9117](https://github.com/lilly9117)") |
-|  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |   <img src="images/soonmoo.jpeg" width="150" height="150">|
-
-| 14기  |   |   |   |
-|---|---|---|---|
-| [김민경]("[https://google.com](https://github.com/minjung-s)") |  [김상현]("[https://github.com/yourmean](https://github.com/yourmean)") |  [정재윤]("[https://github.com/simba-pumba](https://github.com/simba-pumba)") |  [한유진]("[https://github.com/lilly9117](https://github.com/lilly9117)") |
-|  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |  <img src="images/soonmoo.jpeg" width="150" height="150"> |   <img src="images/soonmoo.jpeg" width="150" height="150">|
-
-
 ## Reference
 - Rosinality, stylegan2-pytorch,  2019, [https://github.com/rosinality/stylegan2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
 - PieraRiccio, stylegan2-pytorch, 2019, [https://github.com/PieraRiccio/stylegan2-pytorch](https://github.com/PieraRiccio/stylegan2-pytorch)
@@ -110,7 +97,7 @@ Generate the predicted landmarks using sol2 model
   <tr>
     <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
     <td align="center"><a href="https://github.com/yourmean"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YooMin Lee</b></sub></td>
-    <td align="center"><a href="(https://github.com/simba-pumba"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
+    <td align="center"><a href="https://github.com/simba-pumba"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
     <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
     <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
     <td align="center"><a href="https://github.com/shkim960520"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>SangHyun Kim</b></sub></td>
