@@ -90,27 +90,27 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
 ## Samples
   
 ### Disney - Happy
-|Transfer|Video|
+|Blend style|Generate emoticon|
 |---|---|
 |<img src="images/anime-happy.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/anime-happy.gif" width="300" height="300">|  
   
 ###  Baby - Happy
-|Transfer|Video|
+|Blend style|Generate emoticon|
 |---|---|
 |<img src="images/baby-happy.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/baby-happy.gif" width="300" height="300">|  
   
 ### Painting - Happy  
-|Transfer|Video|
+|Blend style|Generate emoticon|
 |---|---|
 |<img src="images/painting-happy.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/painting-happy.gif" width="300" height="300">|   
   
 ### Disney - Surprise  
-|Transfer|Video|
+|Blend style|Generate emoticon|
 |---|---|
 |<img src="images/anime-surprise.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/anime-surprise.gif" width="300" height="300">|  
   
 ### Baby - Surprise
-|Transfer|Video|
+|Blend style|Generate emoticon|
 |---|---|
 |<img src="images/baby-surprise.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/baby-surprise.gif" width="300" height="300">|    
   
