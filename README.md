@@ -78,7 +78,10 @@ Generate the predicted landmarks using sol2 model
 
 ## Samples
 
-<img src="images/example_3.gif" width="300" height="300"> <img src="images/example_2.gif" width="300" height="300"> <img src="images/example_1.gif" width="300" height="300"> <img src="example_1.gif" width="300" height="300">
+<img src="images/example_3.gif" width="300" height="300"> 
+<img src="images/example_2.gif" width="300" height="300"> 
+<img src="images/example_1.gif" width="300" height="300"> 
+<img src="example_1.gif" width="300" height="300">
 
 ## Reference
 - Rosinality, stylegan2-pytorch,  2019, [https://github.com/rosinality/stylegan2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
@@ -93,13 +96,21 @@ Generate the predicted landmarks using sol2 model
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+
 <table>
   <tr>
     <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
-    <td align="center"><a href="https://github.com/yourmean"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YooMin Lee</b></sub></td>
-    <td align="center"><a href="https://github.com/simba-pumba"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
+    <td align="center"><a href="https://github.com/yourmean"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yumin.jpg" width="150" height="150"><br /><sub><b>YuMin Lee</b></sub></td>
+    <td align="center"><a href="https://github.com/simba-pumba"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yeji.jpg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
     <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
-    <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/minkyeong"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
     <td align="center"><a href="https://github.com/shkim960520"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>SangHyun Kim</b></sub></td>
     <td align="center"><a href="https://github.com/Jeong-JaeYoon"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>JaeYoon Jeong</b></sub></td>
-    <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>YooJin Han</b></sub></td>
+    <td align="center"><a href="https://github.com/Yu-Jin22"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yujin.jpg" width="150" height="150"><br /><sub><b>YuJin Han</b></sub></td>
+  </tr>
+</table>
