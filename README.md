@@ -99,10 +99,10 @@ Generate the predicted landmarks using sol2 model
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/minjung-s"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
+    <td align="center"><a href="https://github.com/minjung-s"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/minjung.jpg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
     <td align="center"><a href="https://github.com/yourmean"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yumin.jpg" width="150" height="150"><br /><sub><b>YuMin Lee</b></sub></td>
     <td align="center"><a href="https://github.com/simba-pumba"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yeji.jpg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
-    <td align="center"><a href="https://github.com/lilly9117"><img src="images/soonmoo.jpeg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
+    <td align="center"><a href="https://github.com/lilly9117"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/hyebin.jpg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
   </tr>
 </table>
 
