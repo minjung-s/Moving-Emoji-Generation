@@ -89,7 +89,7 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
 
 ## Samples
   
-### Disney - Happy
+### Animation - Happy
 |Blend style|Generate emoticon|
 |---|---|
 |<img src="images/anime-happy.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/anime-happy.gif" width="300" height="300">|  
@@ -104,7 +104,7 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
 |---|---|
 |<img src="images/painting-happy.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/painting-happy.gif" width="300" height="300">|   
   
-### Disney - Surprise  
+### Animation - Surprise  
 |Blend style|Generate emoticon|
 |---|---|
 |<img src="images/anime-surprise.png" width="300" height="300">|<img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/anime-surprise.gif" width="300" height="300">|  
