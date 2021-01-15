@@ -16,13 +16,13 @@ EmoGE'T(Emoji GEneratied by Tobigs)은 투빅스 8명의 멤버가 모여 image2
 투빅티콘으로 자신의 움직이는 이모티콘을 만들어보세요 !
 투빅티콘에서는 아래와 같은 옵션이 있습니다. 
 
-이모지 스타일 선택
-| Animation  |  Babyface | Painting  | 
+**이모지 스타일 선택**
+| Disney  |  Baby | Painting  | 
 |---|---|---|
 |  <img src="images/anime.jpg" width="150" height="150"> |  <img src="images/baby.jpeg" width="150" height="150"> |  <img src="images/painting.jpeg" width="150" height="150"> | 
 
 
-이모지 감정 선택
+**이모지 감정 선택**
 | Happiness  |  Disgusted | Surprise  | 
 |---|---|---|
 |  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/surprise.png" width="150" height="150"> | 
