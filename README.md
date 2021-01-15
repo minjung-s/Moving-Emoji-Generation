@@ -81,9 +81,9 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
 
 ## Pretrained Checkpoints
 
-[Animation]("https://drive.google.com/file/d/1JO5-MJwjzrCYCVL-2StAKJbGy-VuwBSp/view?usp=sharing")
-[Baby]("https://drive.google.com/file/d/1Oplgd05plKLa76QzmFE8GsghpZOiMia-/view?usp=sharing")
-[Painting]("https://drive.google.com/file/d/1I0BpprKG3hXixQsnzOezTaG8SZr97OkB/view?usp=sharing")
+[Animation](https://drive.google.com/file/d/1JO5-MJwjzrCYCVL-2StAKJbGy-VuwBSp/view?usp=sharing)
+[Baby](https://drive.google.com/file/d/1Oplgd05plKLa76QzmFE8GsghpZOiMia-/view?usp=sharing)
+[Painting](https://drive.google.com/file/d/1I0BpprKG3hXixQsnzOezTaG8SZr97OkB/view?usp=sharing)
 
 ## Samples
 
