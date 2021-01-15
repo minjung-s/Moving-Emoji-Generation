@@ -24,7 +24,7 @@ Following the below options, the trained model creates your own animated emoji.
 |---|---|---|
 |  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/surprise.png" width="150" height="150"> | 
 
-The Web page demonstrated at the 11th conference of Tobigs is Demo web page[].
+The Web page demonstrated at the 11th conference of Tobigs is Demo web page[].  
 Make your own moving emoticons with Tobigticons! 
 
 ## Requirements
@@ -83,10 +83,11 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
 [Painting](https://drive.google.com/file/d/1I0BpprKG3hXixQsnzOezTaG8SZr97OkB/view?usp=sharing)
 
 ## Samples
-
+  
+### Disney - Happy
 |Original|Generative|
 |---|---|
-|![KakaoTalk_20210115_211220359](https://user-images.githubusercontent.com/68625698/104728612-7c6bd380-577a-11eb-9a31-808daa2ffc7c.png)|![KakaoTalk_20210115_211211030](https://user-images.githubusercontent.com/68625698/104728596-78d84c80-577a-11eb-8931-5973538bff8b.gif)|
+|<img src="images/anime-happy.png" width="512" height="512">|<img src="images/anime-happy.gif" width="512" height="512">|
 
 
 
