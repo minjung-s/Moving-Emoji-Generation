@@ -12,7 +12,7 @@ Following the below options, the trained model creates your own animated emotico
 <br>
 
 **Select an Image Style**
-| Disney  |  Baby | Painting  | 
+| Animation  |  Baby | Painting  | 
 |---|---|---|
 |  <img src="images/anime.jpg" width="150" height="150"> |  <img src="images/baby.jpeg" width="150" height="150"> |  <img src="images/painting.jpeg" width="150" height="150"> | 
 
