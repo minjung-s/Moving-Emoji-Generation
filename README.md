@@ -1,4 +1,4 @@
-# 🙂Moving-Emoji-Generation🤥
+# 🙂Moving-Emoticon-Generation🤥
 <img src="https://user-images.githubusercontent.com/41895063/104711870-3eb08000-5765-11eb-9223-76b7db582395.png" width="700" height="400">
 <br>
 
@@ -48,7 +48,7 @@ We have tested on:
 
 ## Usage
 
-### Generate your own Emoji
+### Generate your own Emoticon
 
 You can generate your own moving emoticon :)
 ```
