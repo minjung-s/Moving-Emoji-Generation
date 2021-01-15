@@ -293,7 +293,7 @@ class UNet(nn.Module):
         self.embedding_c4 = embedding_f(self.n_class,1024)
         #self.embedding_m4 = embedding_f(int(torch.max(self.z_motion).item()),1024)
         
-        # input 3x64x64 가정
+        # input 3x64x64 
         self.conv_down1 = nn.utils.spectral_norm(nn.Conv2d(3, 16, 4, stride =2,padding=1)) # 32x32x16 if input1024 ->Output = 512x512x16/conv층 더 쌓기
         self.conv_down_acf1 = nn.LeakyReLU(inplace=True)
 
@@ -326,27 +326,19 @@ class UNet(nn.Module):
         
         
     def forward(self,image,z_category):
-        
-        #print(int(torch.max(self.z_motion).item()))
-        #print(torch.max(self.z_motion).item())
         conv1 = self.conv_down1(image)
         conv1 = self.conv_down_acf1(conv1)
-        #print("conv1 shape : ",conv1.shape)
 
         conv2 = self.conv_down2(conv1)
         conv2 = self.conv_down_acf2(conv2)
-        #print("conv2 shape : ",conv2.shape)
         
         conv3 = self.conv_down3(conv2)
         conv3 = self.conv_down_acf3(conv3)
-        #print("conv3 shape : ",conv3.shape)
         
         conv4 = self.conv_down4(conv3)
         conv4 = self.conv_down_acf4(conv4)
-        #print("conv4 shape : ",conv4.shape)
-        #print("----------------------------------")
+
         x = self.flatten(conv4)
-        #print("x shape : ",x.shape)
         x = self.linear(x)
 
         if torch.cuda.is_available():
@@ -357,90 +349,38 @@ class UNet(nn.Module):
 
         x = x.repeat(self.video_length,1)
         z_noise_1 = self.z_noise.repeat(self.video_length,1)
-        """
-        print("z_category shape : ",z_category.shape)
-        print("z_motion shape : ",self.z_motion.shape)
-        print("x shape : ",x.shape)
-        print("z_noise_1 shape : ",z_noise_1.shape)
-        """
-
 
         p = torch.cat([z_category, self.z_motion, x, z_noise_1], dim=1)
-        # x : 200, noise : 100, z_motion: 13, categ_embedding : 3
+        # x : 200, noise : 10, z_motion: 13, categ_embedding : 3
         p = p.view(p.size(0),p.size(1),1,1)#[b,316,1,,]
-        #print("p shape : ",p.shape)
 
-        #print("----------------------------------")
         u_conv4 = self.conv_up4(p)
         x = self.conv_up_acf4(u_conv4)#c=128
-        #print("u_conv4 shape : ",x.shape) #128, 2, 2
         conv4 = conv4.repeat(self.video_length,1,1,1)
-
         categ_embedding_1 = self.embedding_c1(z_category)
         categ_embedding_1 = categ_embedding_1.reshape(categ_embedding_1.size(0),categ_embedding_1.size(1),x.size(2),x.size(3))
-        """
-        print("x shape : ",x.shape)
-        print("u_conv4 shape : ",u_conv4.shape)
-        print("categ_embedding shape : ",categ_embedding_1.shape)
-        """
-     
-        x = torch.cat([x, conv4, categ_embedding_1], dim=1) #128+64+128+128=448
-        #print("cat after u_conv4 shape : ",x.shape)
-
-
-        #print("----------------------------------")
-        u_conv3 = self.conv_up3(x)
+        x = torch.cat([x, conv4, categ_embedding_1], dim=1) 
+        
         x = self.conv_up_acf3(u_conv3)
-        #print("u_conv3 shape : ",x.shape)
         conv3 = conv3.repeat(self.video_length,1,1,1)
-
         categ_embedding_2 = self.embedding_c2(z_category)
-        #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_2 = categ_embedding_2.reshape(categ_embedding_2.size(0),categ_embedding_2.size(1),x.size(2),x.size(3))
-        """
-        print("x shape : ",x.shape)
-        print("u_conv4 shape : ",u_conv3.shape)
-        print("categ_embedding shape : ",categ_embedding_2.shape)
-        """
-
         x = torch.cat([x, conv3, categ_embedding_2 ], dim=1)
-        #print("cat after u_conv3 shape : ",x.shape,type(x))
-        #print("----------------------------------")
+        
         u_conv2 = self.conv_up2(x)
         x = self.conv_up_acf2(u_conv2)
-        #print("u_conv2 shape : ",x.shape)
         conv2 = conv2.repeat(self.video_length,1,1,1)
-
-
         categ_embedding_3 = self.embedding_c3(z_category)
-        #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_3 = categ_embedding_3.reshape(categ_embedding_3.size(0),categ_embedding_3.size(1),x.size(2),x.size(3))
-        """
-        print("x shape : ",x.shape)
-        print("u_conv3 shape : ",u_conv2.shape)
-        print("categ_embedding shape : ",categ_embedding_3.shape)
-        """
-
         x = torch.cat([x, conv2, categ_embedding_3 ], dim=1)
-        #print("cat after u_conv3 shape : ",x.shape,type(x))
 
-
-        #print("----------------------------------")
         u_conv1 = self.conv_up1(x)
         x = self.conv_up_acf1(u_conv1)
-        #print("u_conv1 shape : ",x.shape)
         conv1 = conv1.repeat(self.video_length,1,1,1)
         
         categ_embedding_4 = self.embedding_c4(z_category)
-        #categ_embedding = torch.flatten(categ_embedding)
         categ_embedding_4 = categ_embedding_4.reshape(categ_embedding_4.size(0),categ_embedding_4.size(1),x.size(2),x.size(3))
-        """
-        print("x shape : ",x.shape)
-        print("u_conv3 shape : ",u_conv1.shape)
-        print("categ_embedding shape : ",categ_embedding_4.shape)
-        """
         x = torch.cat([x, conv1, categ_embedding_4], dim=1)
-        #print("cat after u_conv1 shape : ",x.shape)
 
         out = self.conv_last(x)
 
@@ -499,7 +439,6 @@ class VideoGenerator(nn.Module):
         # motion(z)만들기, motion(z:생성에 사용)와 one hot category(z_category:생성에 사용) z_category_labels(categorical classification loss에 사용) 출력 
         z_category, z_category_labels = self.sample_z_categ(num_samples, video_len)
         z_motion = self.sample_z_m(num_samples, video_len)
-        #print("dim : ",z_category.shape,z_motion.shape)
 
         if z_category is not None:
             z = torch.cat([z_category, z_motion], dim=1)
@@ -511,20 +450,16 @@ class VideoGenerator(nn.Module):
         video_len = video_len if video_len is not None else self.video_length
         self.video_length
         z,  z_category, z_category_labels = self.sample_z_video(num_samples, video_len)
-        #print("z_category in sample video : ",z_category_labels.shape)
         if target_class is not None : #inference
             print("inference")
             z_category = target_class
-            
-        #print("z shape:",z.shape)
-        #print("z_categoy shape : ",z_category.shape)
+
 
         main = UNet(self.n_class, self.n_channels, z, num_samples,video_len)
         if torch.cuda.is_available():
           main.cuda()
         h = main(image,z_category)
         h = h.view(int(h.size(0) / video_len), int(video_len), self.n_channels, h.size(3), h.size(3))
-        #print("h shape:",h.shape)
         h = h.permute(0, 2, 1, 3, 4)
         return h, Variable(z_category_labels, requires_grad=False)
     
