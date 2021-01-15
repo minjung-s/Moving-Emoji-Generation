@@ -22,7 +22,7 @@ Following the below options, the trained model creates your own animated emoji.
 |  <img src="images/anime.jpg" width="150" height="150"> |  <img src="images/baby.jpeg" width="150" height="150"> |  <img src="images/painting.jpeg" width="150" height="150"> | 
 
 
-**Select Emoji Emotion**
+**Select an Emotion**
 | Happiness  |  Disgusted | Surprise  | 
 |---|---|---|
 |  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/surprise.png" width="150" height="150"> | 
