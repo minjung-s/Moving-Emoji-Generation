@@ -27,7 +27,7 @@ Following the below options, the trained model creates your own animated emotico
 <img src="https://user-images.githubusercontent.com/55529646/104742200-80552100-578d-11eb-9b2e-ab6464d9b285.jpg" width="850" height="850">  
 <br>
 
-The Web page demonstrated at the 11th conference of Tobigs is Demo web page[].  
+The Web page demonstrated at the 11th conference of Tobigs is [Demo web page]().  
 Make your own moving emoticons with Tobigticons! 
 
 <br>
