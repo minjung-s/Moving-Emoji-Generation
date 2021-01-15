@@ -6,9 +6,7 @@
 
 Tobigticon is a service that provides the production of your own moving emoticon using GAN based image2video method.
   
-|Main|Upload|Member|  
-|---|---|---|  
-|![KakaoTalk_20210115_224552857_01](https://user-images.githubusercontent.com/68625698/104738303-b17f2280-5788-11eb-8aed-121762f8a337.png)|![KakaoTalk_20210115_224552857](https://user-images.githubusercontent.com/68625698/104738351-c2c82f00-5788-11eb-86bc-864a0ce8ca8e.png)|![KakaoTalk_20210115_224552857_02](https://user-images.githubusercontent.com/68625698/104738417-d5426880-5788-11eb-8d83-f474685bfe97.png)|  
+![KakaoTalk_20210115_234158041](https://user-images.githubusercontent.com/68625698/104740511-61558f80-578b-11eb-8772-6b2a7105d1e9.png)
 
 ## Notice
 
