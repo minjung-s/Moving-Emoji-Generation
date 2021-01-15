@@ -50,11 +50,13 @@ We have tested on:
 ### Generate your own Emoji
 
 You can generate your own moving emoticon :)
-
-``` 
-# python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 --model sol1
-
+```
 python emoticon_generate.py --file ImagePath --transform Animation --emotion Emotion --type OutputType --model Approach 
+```
+
+For example,
+``` 
+python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 --model sol1
 ```
 
 ### Training
@@ -63,11 +65,11 @@ Train the landmark generation model using sol1 approach
 
 ``` python sol1/main.py --data_path DataPath --conditions Conditions ```
 
-Train the landmark generation model using sol2 approach
+Train the video generation model using sol2 approach
 
 ``` python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  ```
 
-Generate the predicted landmarks using sol2 model
+Generate the video using sol2 model
 
 ``` python sol2/generate_videos.py [model path] [image] [class] [save_path] ```
 
