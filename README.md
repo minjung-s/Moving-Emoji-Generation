@@ -7,7 +7,7 @@
 Tobigticon is a service that provides the production of your own moving emoticon using GAN based image2video method.  
 
   
-<img src="https://user-images.githubusercontent.com/68625698/104740511-61558f80-578b-11eb-8772-6b2a7105d1e9.png" width="700" height="500">  
+<img src="https://user-images.githubusercontent.com/68625698/104740511-61558f80-578b-11eb-8772-6b2a7105d1e9.png" width="900" height="500">  
 
 ## Notice
 
