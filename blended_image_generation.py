@@ -4,7 +4,6 @@ from torchvision.utils import save_image
 from model import Generator
 
 
-
 def generate_image(img_path, model_path):
 
     os.system(f"python projector.py --ckpt {model_path} --size 1024 {img_path}")
