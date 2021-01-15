@@ -63,21 +63,27 @@ python emoticon_generate.py --file 00001.jpg --transform baby --emotion disguste
 
 Train the landmark generation model using sol1 approach
 
-``` python sol1/main.py --data_path DataPath --conditions Conditions ```
+``` 
+python sol1/main.py --data_path DataPath --conditions Conditions
+```
 
 Train the video generation model using sol2 approach
 
-``` python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  ```
+```
+python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
+```
 
 Generate the video using sol2 model
 
-``` python sol2/generate_videos.py [model path] [image] [class] [save_path] ```
+``` 
+python sol2/generate_videos.py [model path] [image] [class] [save_path]
+```
 
 ## Pretrained Checkpoints
 
-[Animation]()
-[Baby]()
-[Painting]()
+[Animation]("https://drive.google.com/file/d/1JO5-MJwjzrCYCVL-2StAKJbGy-VuwBSp/view?usp=sharing")
+[Baby]("https://drive.google.com/file/d/1Oplgd05plKLa76QzmFE8GsghpZOiMia-/view?usp=sharing")
+[Painting]("https://drive.google.com/file/d/1I0BpprKG3hXixQsnzOezTaG8SZr97OkB/view?usp=sharing")
 
 ## Samples
 
