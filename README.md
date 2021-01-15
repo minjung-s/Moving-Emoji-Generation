@@ -51,24 +51,25 @@ We have tested on:
 
 You can generate your own moving emoticon :)
 
-> python emoticon_generate.py --file ImagePath --transform Animation --emotion Emotion --type OutputType --model Approach
+``` 
+# python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 --model sol1
 
-For example,
-> python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 --model sol1
+python emoticon_generate.py --file ImagePath --transform Animation --emotion Emotion --type OutputType --model Approach 
+```
 
 ### Training
 
 Train the landmark generation model using sol1 approach
 
-> python sol1/main.py --data_path DataPath --conditions Conditions
+``` python sol1/main.py --data_path DataPath --conditions Conditions ```
 
 Train the landmark generation model using sol2 approach
 
-> python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
+``` python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  ```
 
 Generate the predicted landmarks using sol2 model
 
-> python sol2/generate_videos.py [model path] [image] [class] [save_path]
+``` python sol2/generate_videos.py [model path] [image] [class] [save_path] ```
 
 ## Pretrained Checkpoints
 
@@ -99,7 +100,7 @@ Generate the predicted landmarks using sol2 model
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/minjung-s"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/minjung.jpg" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
+    <td align="center"><a href="https://github.com/minjung-s"><img src="https://user-images.githubusercontent.com/41895063/104710310-45d68e80-5763-11eb-8bca-3d11bab3f636.png" width="150" height="150"><br /><sub><b>MinJung Shin</b></sub></td>
     <td align="center"><a href="https://github.com/yourmean"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yumin.jpg" width="150" height="150"><br /><sub><b>YuMin Lee</b></sub></td>
     <td align="center"><a href="https://github.com/simba-pumba"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/yeji.jpg" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
     <td align="center"><a href="https://github.com/lilly9117"><img src="https://github.com/minjung-s/Moving-Emoji-Generation/blob/main/images/member/hyebin.jpg" width="150" height="150"><br /><sub><b>Hyebin Choi</b></sub></td>
