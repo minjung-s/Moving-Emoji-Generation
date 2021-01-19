@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-# Moving-Emoji-Generation - Web team 📖
-preview : https://yourmean.github.io/Moving-Emoji-Generation_Web/
-<p align="center"><img src="https://user-images.githubusercontent.com/55529646/104988631-f098c680-5a5b-11eb-97ab-c349a954672c.jpg" width="850" height="485"></p>
-<br>
-
-
-## DEMO SCREENSHOT
-<p align="center"><img src="https://user-images.githubusercontent.com/55529646/104742200-80552100-578d-11eb-9b2e-ab6464d9b285.jpg" width="850" height="850"></p>
-
-## Contributor 🌟
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/simba-pumba"><img src="https://user-images.githubusercontent.com/41895063/104711155-576c6600-5764-11eb-8a1e-a7a011cfe17d.png" width="150" height="150"><br /><sub><b>YeJi Lee</b></sub></td>
-    <td align="center"><a href="https://github.com/yourmean"><img src="https://user-images.githubusercontent.com/41895063/104711276-7cf96f80-5764-11eb-8473-99c5c0dc8a8a.png" width="150" height="150"><br /><sub><b>YuMin Lee</b></sub></td>
-    <td align="center"><a href="https://github.com/minkyeong"><img src="https://user-images.githubusercontent.com/55529646/104719170-6a386800-576f-11eb-8b55-36b524c4d166.jpg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
-=======
 # 🙂Moving-Emoticon-Generation🤥
 <img src="https://user-images.githubusercontent.com/41895063/104711870-3eb08000-5765-11eb-9223-76b7db582395.png" width="700" height="400">
 <br>
