@@ -98,7 +98,6 @@ def upload():
     time.sleep(20)
     router_output = channel.recv(1024)
  
-
     localpath2=f'../src/public/{want}.{type_option}'
     remotepath2=f'/..../{want}.{type_option}'
 

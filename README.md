@@ -21,7 +21,7 @@ Following the below options, the model creates your own animated emoticon.
 
 
 **Select an Emotion**
-| Happiness  |  Disgusted | Surprise  | 
+| Happiness  |  Disgusted | Surprised  | 
 |---|---|---|
 |  <img src="images/happy.png" width="150" height="150"> |  <img src="images/disgust.png" width="150" height="150"> |  <img src="images/surprise.png" width="150" height="150"> | 
 <br>
@@ -54,23 +54,23 @@ We have tested on:
 
 You can generate your own moving emoticon :)
 ```
-python emoticon_generate.py --file ImagePath --transform Animation --emotion Emotion --type OutputType --model Approach 
+python emoticon_generate.py --file ImagePath --transform Animation --emotion Emotion --type OutputType
 ```
 
 For example,
 ``` 
-python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 --model sol1
+python emoticon_generate.py --file 00001.jpg --transform baby --emotion disgusted --type mp4 
 ```
 
 ### Training
 
-Training the landmark generation model using the Sol1 approach that developed WARP.
+Training the landmark generation model using the Sol1 approach.
 
 ``` 
-python sol1/main.py --data_path DataPath --conditions Conditions
+python sol1/train.py --data_path DataPath --conditions Conditions
 ```
 
-Train the video generation model using sol2 developed by mocogan.
+Train the video generation model using sol2 implemented by mocogan.
 
 ```
 python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
@@ -142,6 +142,7 @@ python sol2/generate_videos.py [model path] [image] [class] [save_path]
   <tr>
     <td align="center"><a href="https://github.com/minkyeong"><img src="https://user-images.githubusercontent.com/55529646/104719170-6a386800-576f-11eb-8b55-36b524c4d166.jpg" width="150" height="150"><br /><sub><b>MinKyeong Kim</b></sub></td>
     <td align="center"><a href="https://github.com/shkim960520"><img src="https://user-images.githubusercontent.com/55529646/104719176-6d335880-576f-11eb-849f-4d6756824d68.jpg" width="150" height="150"><br /><sub><b>SangHyun Kim</b></sub></td>
+>>>>>>> 65dabe2a8477aa5e7552d3a3b97aabace2534154
     <td align="center"><a href="https://github.com/Jeong-JaeYoon"><img src="https://user-images.githubusercontent.com/55529646/104719173-6b699500-576f-11eb-9a42-a8569be057bc.jpg" width="150" height="150"><br /><sub><b>JaeYoon Jeong</b></sub></td>
     <td align="center"><a href="https://github.com/Yu-Jin22"><img src="https://user-images.githubusercontent.com/41895063/104711416-afa36800-5764-11eb-85c1-1a9ad50033b7.png" width="150" height="150"><br /><sub><b>YuJin Han</b></sub></td>
   </tr>

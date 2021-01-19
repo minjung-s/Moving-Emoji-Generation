@@ -1,20 +1,9 @@
 import argparse
-import subprocess
-import argparse
-import shutil
 import os
 import imageio
 import cv2
 import numpy as np
-import glob
-import matplotlib.pyplot as plt
 from skimage.transform import PiecewiseAffineTransform, warp
-from skimage import data, io
-import pandas as pd
-from scipy.interpolate import Rbf
-import json
-from PIL import Image
-
 
 def init_argument():
     parser = argparse.ArgumentParser()
@@ -38,7 +27,7 @@ def init_argument():
         "--emotion", 
         default='happiness', 
         type=str,
-        choices=['disgusted', 'happiness', 'surprise'],
+        choices=['disgusted', 'happiness', 'surprised'],
         help="Choose your emotion (default: happiness)"
         ) # disgust, happiness, surprise
     
@@ -57,18 +46,9 @@ def init_argument():
         help="Video duration"
         ) 
 
-    parser.add_argument(
-        "--model", 
-        default='sol1', 
-        type=str,
-        choices=['sol1', 'sol2'],
-        help="Select your video generating model (default: sol1)"
-        )
-
     args = parser.parse_args()
 
     return args
-
 
 
 def warp_f(file_path, output_type, first_landmark, predicted_landmarks, duration=0.1):

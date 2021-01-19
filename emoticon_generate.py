@@ -3,21 +3,22 @@ from blended_image_generation import generate_image
 from landmark_generate import landmark_detect, sol1_generate_landmark
 from copy import copy
 
-transform_dic = {'animation': 'params/disney-blended.pt', 'baby': 'params/baby-blended.pt', 'painting': 'params/metFaces-blended-32.pt'}
+transform_dic = {'animation': 'params/animation.pt', 'baby': 'params/baby.pt', 'painting': 'params/painting.pt'}
 
 if __name__=="__main__":
 
     args = init_argument()
-    model_path = transform_dic[args.transform]
-    generate_image(args.file, model_path)
 
-    if args.model == "sol1":
-        first_landmark = landmark_detect(args.file)
-        predicted_landmarks = sol1_generate_landmark(first_landmark.copy(), args.emotion)
-        warp_f(args.file, args.type, first_landmark, predicted_landmarks, args.duration)
+    param_path = transform_dic[args.transform]
 
-    elif args.model == "sol2":
-        sol2_generate_landmark(args.file, args.type, args.emotion, args.duration)
+    # inversion and transform
+    generate_image(args.file, param_path)
+    
+    # landmark of input image
+    first_landmark = landmark_detect(args.file)
 
-    else:
-        assert "You have to selcet model in ['sol1', 'sol2']"
+    # generate landmarks
+    predicted_landmarks = sol1_generate_landmark(first_landmark.copy(), args.emotion)   
+
+    # warping
+    warp_f(args.file, args.type, first_landmark, predicted_landmarks, args.duration)

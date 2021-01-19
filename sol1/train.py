@@ -1,14 +1,12 @@
 import pandas as pd
 import numpy as np
 import copy
-
+import argparse
 from sklearn.model_selection import train_test_split
-
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
-
+from torch.utils.data import DataLoader, TensorDataset
 import conditional_rnn_model
 
 
@@ -90,3 +88,55 @@ def trainer(data_path, t_stamp = 50, batch = 64, num_epochs = 1000, conditions =
     landmark_gen = train_model(model, dataloaders, criterion, optimizer, num_epochs, device)
 
     return landmark_gen
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--save_path",
+        type = str,
+        default = 'generator_exp.pytorch',
+        help = 'path to save model'
+    )
+
+    parser.add_argument(
+        "--data_path",
+        type = str,
+        default = 'condition_landmarks.csv',
+        help = 'dataset path for training'
+    )
+
+    parser.add_argument(
+        "--t_stamp",
+        type = int,
+        default = 50,
+        help = 'the number of time stamps that you want to generate'
+    )
+
+    parser.add_argument(
+        "--batch",
+        type = int,
+        default = 64,
+        help = 'batch_size for training'
+    )
+
+    parser.add_argument(
+        "--num_epochs",
+        type = int,
+        default = 2,
+        help = 'the number of epochs for training'
+    )
+
+    parser.add_argument(
+        "--conditions",
+        type = str,
+        default = 'element_mul',
+        help = 'choose the way of embedding conditon vector'
+    )
+
+    args = parser.parse_args()
+    landmark_gen = trainer(args.data_path, args.t_stamp, args.batch,
+                                                    args.num_epochs, args.conditions)
+    landmark_gen.eval()
+    torch.save(landmark_gen, args.save_path)
