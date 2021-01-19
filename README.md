@@ -74,13 +74,10 @@ Train the video generation model using sol2 implemented by mocogan.
 
 ```
 python sol2/train.py --image_discriminator PatchImageDiscriminator --video_discriminator CategoricalVideoDiscriminator --dim_z_category 3 --video_length 16  
-```
-
-Generate the video using sol2 model
-
-``` 
+# Generate the video using sol2 model
 python sol2/generate_videos.py [model path] [image] [class] [save_path]
 ```
+
 
 ## Pretrained Checkpoints
 
