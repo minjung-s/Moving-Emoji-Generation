@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TOBIGS - EmoGE'T</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="static/css/main.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header id="header" class="alt">
+            <div class="inner">
+                <h1>EmoGE'T</h1>
+                <p>- Tobig's 11th Conference -<br />Emoji Generation by Tobigs</p>
+            </div>
+        </header>
+
+        <!-- Wrapper -->
+        <div id="wrapper">
+            <!-- Banner -->
+            <section id="intro" class="main">
+                <span class="icon fa-diamond major"></span>
+                <h2>Let's make your own EmoGE'T</h2>
+                <p>
+                        <b>step1.</b> 당신의 사진 한 장 업로드 한 후,<br />
+                        <b>step2.</b> 사진에 적용할 <b>스타일(animation, baby, painting)</b><br />
+                        <b>step3.</b> 이모지가 표현할 <b>감정(happy, surprise, disgusted)</b><br />
+                        <b>step4.</b> 만들어질 이모지의 <b>확장자(gif, mp4)</b><br />
+                        <b>step5.</b> 당신의 이모지를 만들 <b>방법(sol1, sol2)</b><br />
+                        <b>step6.</b> 이모지가 움직일 <b>속도(0~0.1)</b><br />
+                        <b>step2~step6을 따라 옵션을 선택해주세요. </b><br /><br />
+                    <center/>
+                </p>
+            </section>
+
+            <section id="intro" class="main">
+                <h2>- FILE UPLOAD -</h2>
+                <form
+                    id="upload-form"
+                    action="{{ url_for('upload') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    <input id="file-picker" type="file" name="file" accept="image/*" multiple />
+                    <br />
+                    <div id="msg"></div>
+                    <br />
+                    <select name="style">
+                        <option value="animation">animation</option>
+                        <option selected value="baby">baby</option>
+                        <option value="painting">painting</option>
+                    </select>
+                    <br />
+                    <select name="emotion">
+                        <option value="happy">happy</option>
+                        <option selected value="surprise">surprise</option>
+                        <option value="disgusted">disgusted</option>
+                    </select>
+                    <br />
+                    <select name="type">
+                        <option selected value="gif">gif</option>
+                        <option value="mp4">mp4</option>
+                    </select>
+                    <br />
+                    <select name="model">
+                        <option selected value="sol1">sol1</option>
+                        <option value="sol2">sol2</option>
+                    </select>
+                    <br />
+                    <select name="frame">
+                        <option value="0.01">0.01</option>
+                        <option selected value="0.03">0.03</option>
+                        <option value="0.05">0.05</option>
+                        <option value="0.07">0.07</option>
+                        <option value="0.1">0.1</option>
+                    </select>
+                    <br /><br />
+                    <input class="button big" type="submit" value="UPLOAD" id="upload-button" />
+                </form>
+            </section>
+        </div>
+    </body>
+
+    <script>
+        $('#file-picker').change(function () {
+            var input = document.getElementById('file-picker');
+
+            for (var i = 0; i < input.files.length; i++) {
+                //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
+                var ext = input.files[i].name
+                    .substring(input.files[i].name.lastIndexOf('.') + 1)
+                    .toLowerCase();
+
+                if (ext == 'jpg' || ext == 'png' || ext == 'jpeg') {
+                    $('#msg').text('Files are supported');
+                } else {
+                    $('#msg').text('Files are NOT supported');
+                    document.getElementById('file-picker').value = '';
+                }
+            }
+        });
+    </script>
+</html>
