@@ -1,14 +1,12 @@
 # <!-- base line code : https://github.com/ibrahimokdadov/upload_file_python -->
 
 import os
-import PIL
+import time
 from PIL import Image
 from uuid import uuid4
-
 from flask import Flask, request, render_template, send_from_directory, send_file
 import paramiko
 from paramiko import SSHClient
-import time
 
 __author__ = 'ibininja'
 
@@ -91,11 +89,8 @@ def upload():
     
     channel = client.invoke_shell()
     channel.send('cd ....\n')
-    time.sleep(20)
     channel.send('conda activate ....\n')
-    time.sleep(20)
     channel.send(f'python emoticon_generate.py --file {want}.jpg --transform {style_option} --model {model_option} --duration {frame_option}\n')
-    time.sleep(20)
     router_output = channel.recv(1024)
  
     localpath2=f'../src/public/{want}.{type_option}'
